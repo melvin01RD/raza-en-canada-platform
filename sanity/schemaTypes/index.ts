@@ -8,7 +8,10 @@ import {postType} from './postType'
 import {editorialImageType} from './objects/editorialImageType'
 import {richTextType} from './objects/richTextType'
 import {seoType} from './objects/seoType'
+import {socialLinkType} from './objects/socialLinkType'
 import {sourceType} from './objects/sourceType'
+import { provinceType } from './documents/provinceType'
+
 
 export const schema: {
   types: SchemaTypeDefinition[]
@@ -19,6 +22,8 @@ export const schema: {
     richTextType,
     sourceType,
     seoType,
+    socialLinkType,
+    
 
     // Temporary compatibility with the Sanity Blog starter
     blockContentType,
@@ -27,5 +32,6 @@ export const schema: {
     categoryType,
     postType,
     authorType,
+    provinceType
   ],
 }
