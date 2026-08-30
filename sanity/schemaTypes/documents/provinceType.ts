@@ -25,18 +25,32 @@ export const provinceType = defineType({
       },
       validation: (Rule) => Rule.required(),
     }),
-
-    defineField({
-      name: 'code',
-      title: 'Province / Territory Code',
-      type: 'string',
-      description:
-        'Código oficial de dos letras, por ejemplo AB, ON, BC o QC.',
-      validation: (Rule) =>
-        Rule.required()
-          .length(2)
-          .uppercase(),
-    }),
+defineField({
+  name: 'code',
+  title: 'Province / Territory Code',
+  type: 'string',
+  description:
+    'Código oficial de la provincia o territorio de Canadá.',
+  options: {
+    list: [
+      {title: 'Alberta (AB)', value: 'AB'},
+      {title: 'British Columbia (BC)', value: 'BC'},
+      {title: 'Manitoba (MB)', value: 'MB'},
+      {title: 'New Brunswick (NB)', value: 'NB'},
+      {title: 'Newfoundland and Labrador (NL)', value: 'NL'},
+      {title: 'Nova Scotia (NS)', value: 'NS'},
+      {title: 'Northwest Territories (NT)', value: 'NT'},
+      {title: 'Nunavut (NU)', value: 'NU'},
+      {title: 'Ontario (ON)', value: 'ON'},
+      {title: 'Prince Edward Island (PE)', value: 'PE'},
+      {title: 'Quebec (QC)', value: 'QC'},
+      {title: 'Saskatchewan (SK)', value: 'SK'},
+      {title: 'Yukon (YT)', value: 'YT'},
+    ],
+    layout: 'dropdown',
+  },
+  validation: (Rule) => Rule.required(),
+}),
 
     defineField({
       name: 'description',

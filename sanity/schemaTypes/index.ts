@@ -11,6 +11,7 @@ import {seoType} from './objects/seoType'
 import {socialLinkType} from './objects/socialLinkType'
 import {sourceType} from './objects/sourceType'
 import { provinceType } from './documents/provinceType'
+import {cityType} from './documents/cityType'
 
 
 export const schema: {
@@ -23,6 +24,7 @@ export const schema: {
     sourceType,
     seoType,
     socialLinkType,
+    cityType,
     
 
     // Temporary compatibility with the Sanity Blog starter
