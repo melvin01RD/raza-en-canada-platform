@@ -3,7 +3,7 @@ import {type SchemaTypeDefinition} from 'sanity'
 import {authorType} from './authorType'
 import {blockContentType} from './blockContentType'
 import {categoryType} from './categoryType'
-import {postType} from './postType'
+
 
 import {editorialImageType} from './objects/editorialImageType'
 import {richTextType} from './objects/richTextType'
@@ -12,6 +12,7 @@ import {socialLinkType} from './objects/socialLinkType'
 import {sourceType} from './objects/sourceType'
 import { provinceType } from './documents/provinceType'
 import {cityType} from './documents/cityType'
+import { articleType } from './documents/articleType'
 
 
 export const schema: {
@@ -25,6 +26,7 @@ export const schema: {
     seoType,
     socialLinkType,
     cityType,
+    articleType,
     
 
     // Temporary compatibility with the Sanity Blog starter
@@ -32,7 +34,6 @@ export const schema: {
 
     // Existing document types
     categoryType,
-    postType,
     authorType,
     provinceType
   ],
