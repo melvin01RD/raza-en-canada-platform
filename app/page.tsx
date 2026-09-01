@@ -1,7 +1,35 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
+import { ArticleCard } from "@/components/content/article-card";
 import { SiteHeader } from "@/components/layout/site-header";
+
+const latestArticles = [
+  {
+    title: "Cómo encontrar trabajo en Canadá siendo recién llegado",
+    excerpt:
+      "Conoce los primeros pasos para preparar tu búsqueda laboral, adaptar tu currículum y entender mejor el mercado canadiense.",
+    category: "Trabajo",
+    href: "/articulos/como-encontrar-trabajo-en-canada",
+    publishedAt: "1 sep 2026",
+  },
+  {
+    title: "Qué debes saber antes de mudarte a una nueva provincia",
+    excerpt:
+      "Costo de vida, oportunidades laborales, transporte y servicios son algunos de los factores que conviene evaluar antes de elegir dónde vivir.",
+    category: "Canadá",
+    href: "/articulos/elegir-provincia-en-canada",
+    publishedAt: "30 ago 2026",
+  },
+  {
+    title: "Primeros pasos para estudiar en Canadá",
+    excerpt:
+      "Una introducción a las opciones educativas, requisitos básicos y aspectos importantes para quienes consideran estudiar en Canadá.",
+    category: "Educación",
+    href: "/articulos/estudiar-en-canada",
+    publishedAt: "28 ago 2026",
+  },
+];
 
 export default function Home() {
   return (
@@ -9,6 +37,7 @@ export default function Home() {
       <SiteHeader />
 
       <main>
+        {/* HERO */}
         <section className="bg-[#0B1F33]">
           <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-14 sm:px-6 sm:py-20 lg:grid-cols-2 lg:px-8 lg:py-24">
             <div>
@@ -31,7 +60,7 @@ export default function Home() {
                   className="inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-[#D80621] px-6 py-3 font-semibold text-white transition-colors hover:bg-[#B9051B]"
                 >
                   Explorar artículos
-                  <ArrowRight className="h-4 w-4" />
+                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
                 </Link>
 
                 <Link
@@ -62,12 +91,55 @@ export default function Home() {
 
                 <Link
                   href="/provincias"
-                  className="mt-6 inline-flex items-center gap-2 font-semibold text-white hover:text-[#FF6B78]"
+                  className="mt-6 inline-flex items-center gap-2 font-semibold text-white transition-colors hover:text-[#FF6B78]"
                 >
                   Conocer provincias
-                  <ArrowRight className="h-4 w-4" />
+                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
                 </Link>
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ÚLTIMOS ARTÍCULOS */}
+        <section className="bg-slate-50 py-16 sm:py-20">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className="text-sm font-semibold uppercase tracking-widest text-[#D80621]">
+                  Actualidad
+                </p>
+
+                <h2 className="mt-2 text-3xl font-bold tracking-tight text-[#0B1F33] sm:text-4xl">
+                  Últimos artículos
+                </h2>
+
+                <p className="mt-3 max-w-2xl text-base leading-7 text-slate-600">
+                  Información práctica sobre trabajo, educación, inmigración y
+                  vida en Canadá.
+                </p>
+              </div>
+
+              <Link
+                href="/articulos"
+                className="inline-flex items-center gap-2 text-sm font-semibold text-[#0B1F33] transition-colors hover:text-[#D80621]"
+              >
+                Ver todos los artículos
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
+            </div>
+
+            <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {latestArticles.map((article) => (
+                <ArticleCard
+                  key={article.href}
+                  title={article.title}
+                  excerpt={article.excerpt}
+                  category={article.category}
+                  href={article.href}
+                  publishedAt={article.publishedAt}
+                />
+              ))}
             </div>
           </div>
         </section>
