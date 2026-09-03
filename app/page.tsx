@@ -1,4 +1,3 @@
-
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
@@ -6,34 +5,10 @@ import { ArticleCard } from "@/components/content/article-card";
 import { ProvinceCard } from "@/components/content/province-card";
 import { SiteHeader } from "@/components/layout/site-header";
 import { client } from "@/sanity/lib/client";
-import { featuredProvincesQuery } from "@/sanity/lib/queries";
-
-const latestArticles = [
-  {
-    title: "Cómo encontrar trabajo en Canadá siendo recién llegado",
-    excerpt:
-      "Conoce los primeros pasos para preparar tu búsqueda laboral, adaptar tu currículum y entender mejor el mercado canadiense.",
-    category: "Trabajo",
-    href: "/articulos/como-encontrar-trabajo-en-canada",
-    publishedAt: "1 sep 2026",
-  },
-  {
-    title: "Qué debes saber antes de mudarte a una nueva provincia",
-    excerpt:
-      "Costo de vida, oportunidades laborales, transporte y servicios son algunos de los factores que conviene evaluar antes de elegir dónde vivir.",
-    category: "Canadá",
-    href: "/articulos/elegir-provincia-en-canada",
-    publishedAt: "30 ago 2026",
-  },
-  {
-    title: "Primeros pasos para estudiar en Canadá",
-    excerpt:
-      "Una introducción a las opciones educativas, requisitos básicos y aspectos importantes para quienes consideran estudiar en Canadá.",
-    category: "Educación",
-    href: "/articulos/estudiar-en-canada",
-    publishedAt: "28 ago 2026",
-  },
-];
+import {
+  featuredProvincesQuery,
+  latestArticlesQuery,
+} from "@/sanity/lib/queries";
 
 type Province = {
   _id: string;
@@ -44,8 +19,23 @@ type Province = {
   heroImage?: unknown;
 };
 
+type Article = {
+  _id: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  publishedAt: string;
+  category: {
+    title: string;
+    slug: string;
+  };
+};
+
 export default async function Home() {
-  const provinces = await client.fetch<Province[]>(featuredProvincesQuery);
+  const [provinces, articles] = await Promise.all([
+    client.fetch<Province[]>(featuredProvincesQuery),
+    client.fetch<Article[]>(latestArticlesQuery),
+  ]);
 
   return (
     <div className="min-h-screen bg-white">
@@ -145,14 +135,18 @@ export default async function Home() {
             </div>
 
             <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {latestArticles.map((article) => (
+              {articles.map((article) => (
                 <ArticleCard
-                  key={article.href}
+                  key={article._id}
                   title={article.title}
                   excerpt={article.excerpt}
-                  category={article.category}
-                  href={article.href}
-                  publishedAt={article.publishedAt}
+                  category={article.category.title}
+                  href={`/articulos/${article.slug}`}
+                  publishedAt={new Intl.DateTimeFormat("es-CA", {
+                    day: "numeric",
+                    month: "short",
+                    year: "numeric",
+                  }).format(new Date(article.publishedAt))}
                 />
               ))}
             </div>
@@ -205,4 +199,3 @@ export default async function Home() {
     </div>
   );
 }
-

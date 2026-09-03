@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, MapPin } from "lucide-react";
 import { notFound } from "next/navigation";
@@ -20,7 +21,12 @@ type Province = {
   code: string;
   description?: string;
   heroImage?: unknown;
-  cities?: City[];
+    seo?: {
+    metaTitle?: string;
+    metaDescription?: string;
+};
+cities?: City[];
+
 };
 
 type ProvincePageProps = {
@@ -28,6 +34,50 @@ type ProvincePageProps = {
     slug: string;
   }>;
 };
+
+export async function generateMetadata({
+  params,
+}: ProvincePageProps): Promise<Metadata> {
+  const { slug } = await params;
+
+  const province = await client.fetch<Province | null>(
+    provinceBySlugQuery,
+    {
+      slug,
+    }
+  );
+
+  if (!province) {
+    return {
+      title: "Provincia no encontrada",
+      description:
+        "La provincia o territorio solicitado no está disponible.",
+    };
+  }
+
+  const title =
+    province.seo?.metaTitle ??
+    `${province.name}, Canadá`;
+
+  const description =
+    province.seo?.metaDescription ??
+    province.description ??
+    `Conoce información sobre ${province.name}, sus ciudades y aspectos importantes para vivir en esta provincia o territorio de Canadá.`;
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: `/provincias/${province.slug}`,
+    },
+    openGraph: {
+      title,
+      description,
+      type: "website",
+    },
+  };
+}
+
 
 export default async function ProvincePage({
   params,

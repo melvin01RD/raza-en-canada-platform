@@ -37,6 +37,43 @@ export const provinceBySlugQuery = `
   }
 `;
 
+export const latestArticlesQuery = `
+  *[
+    _type == "article" &&
+    defined(slug.current) &&
+    defined(publishedAt) &&
+    publishedAt <= now() &&
+    !(_id in path("drafts.**"))
+  ]
+  | order(publishedAt desc)[0...3] {
+    _id,
+    title,
+    "slug": slug.current,
+    excerpt,
+    publishedAt,
+
+    mainImage {
+      image {
+        asset-> {
+          _id,
+          url,
+          metadata {
+            dimensions
+          }
+        }
+      },
+      alt,
+      caption
+    },
+
+    category->{
+      title,
+      "slug": slug.current
+    }
+  }
+
+`;
+
 export const cityBySlugQuery = `
   *[
     _type == "city" &&

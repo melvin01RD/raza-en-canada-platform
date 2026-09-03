@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, MapPin } from "lucide-react";
 import { notFound } from "next/navigation";
@@ -19,6 +20,10 @@ type City = {
   slug: string;
   description?: string;
   heroImage?: unknown;
+  seo?: {
+    metaTitle?: string;
+    metaDescription?: string;
+  };
   province?: Province;
 };
 
@@ -27,6 +32,52 @@ type CityPageProps = {
     slug: string;
   }>;
 };
+
+
+export async function generateMetadata({
+  params,
+}: CityPageProps): Promise<Metadata> {
+  const { slug } = await params;
+
+  const city = await client.fetch<City | null>(cityBySlugQuery, {
+    slug,
+  });
+
+  if (!city) {
+    return {
+      title: "Ciudad no encontrada",
+      description: "La ciudad solicitada no está disponible.",
+    };
+  }
+
+  const provinceName = city.province?.name;
+
+  const title =
+    city.seo?.metaTitle ??
+    (provinceName
+      ? `${city.name}, ${provinceName}`
+      : `${city.name}, Canadá`);
+
+  const description =
+    city.seo?.metaDescription ??
+    city.description ??
+    (provinceName
+      ? `Conoce información sobre ${city.name}, ${provinceName}, Canadá, y aspectos importantes para vivir en esta ciudad.`
+      : `Conoce información sobre ${city.name}, Canadá.`);
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: `/ciudades/${city.slug}`,
+    },
+    openGraph: {
+      title,
+      description,
+      type: "website",
+    },
+  };
+}
 
 export default async function CityPage({ params }: CityPageProps) {
   const { slug } = await params;
