@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+
+import { SiteFooter } from "@/components/layout/site-footer";
+
 import "./globals.css";
 
 const geistSans = Geist({
@@ -21,13 +24,23 @@ export const metadata: Metadata = {
     "Información, noticias y recursos sobre inmigración, trabajo, educación y vida en Canadá.",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
     <html
       lang="es"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="flex min-h-full flex-col">
+     
+
+        <main className="flex-1">{children}</main>
+
+        <SiteFooter />
+      </body>
     </html>
   );
 }

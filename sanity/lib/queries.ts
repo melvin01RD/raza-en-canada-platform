@@ -74,6 +74,77 @@ export const latestArticlesQuery = `
 
 `;
 
+export const allArticlesQuery = `
+  *[
+    _type == "article" &&
+    defined(slug.current) &&
+    defined(publishedAt) &&
+    publishedAt <= now() &&
+    !(_id in path("drafts.**"))
+  ]
+  | order(publishedAt desc) {
+    _id,
+    title,
+    "slug": slug.current,
+    excerpt,
+    publishedAt,
+
+    category->{
+      title,
+      "slug": slug.current
+    }
+  }
+`;
+
+export const articleBySlugQuery = `
+  *[
+    _type == "article" &&
+    slug.current == $slug &&
+    defined(publishedAt) &&
+    publishedAt <= now() &&
+    !(_id in path("drafts.**"))
+  ][0] {
+    _id,
+    title,
+    "slug": slug.current,
+    excerpt,
+    publishedAt,
+    body,
+    sources,
+    seo,
+
+    author->{
+      name
+    },
+
+    category->{
+      title,
+      "slug": slug.current
+    },
+
+    province->{
+      name,
+      "slug": slug.current
+    },
+
+    city->{
+      name,
+      "slug": slug.current
+    },
+
+    mainImage {
+      image {
+        asset->{
+          _id,
+          url
+        }
+      },
+      alt,
+      caption
+    }
+  }
+`;
+
 export const cityBySlugQuery = `
   *[
     _type == "city" &&

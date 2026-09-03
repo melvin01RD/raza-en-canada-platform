@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, MapPin } from "lucide-react";
 import { notFound } from "next/navigation";
-
-import { SiteHeader } from "@/components/layout/site-header";
 import { client } from "@/sanity/lib/client";
 import { provinceBySlugQuery } from "@/sanity/lib/queries";
 
@@ -96,8 +94,8 @@ export default async function ProvincePage({
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <SiteHeader />
+ <div className="bg-slate-50">
+    
 
       <main>
         <section className="bg-[#0B1F33] py-14 sm:py-20">

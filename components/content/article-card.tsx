@@ -7,6 +7,8 @@ type ArticleCardProps = {
   category: string;
   href: string;
   publishedAt: string;
+  imageUrl?: string;
+  imageAlt?: string;
 };
 
 export function ArticleCard({
@@ -15,10 +17,29 @@ export function ArticleCard({
   category,
   href,
   publishedAt,
+  imageUrl,
+  imageAlt,
 }: ArticleCardProps) {
   return (
     <article className="group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-md">
-      <div className="aspect-[16/9] bg-gradient-to-br from-slate-100 to-slate-200" />
+      {imageUrl ? (
+        <Link
+          href={href}
+          className="block overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D80621]"
+        >
+          <img
+            src={imageUrl}
+            alt={imageAlt ?? title}
+            className="aspect-[16/9] w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+            loading="lazy"
+          />
+        </Link>
+      ) : (
+        <div
+          className="aspect-[16/9] bg-gradient-to-br from-slate-100 to-slate-200"
+          aria-hidden="true"
+        />
+      )}
 
       <div className="p-6">
         <div className="flex items-center justify-between gap-4">
