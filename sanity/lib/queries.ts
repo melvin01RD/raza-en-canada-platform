@@ -89,8 +89,76 @@ export const allArticlesQuery = `
     excerpt,
     publishedAt,
 
+    mainImage {
+      image {
+        asset-> {
+          _id,
+          url,
+          metadata {
+            dimensions
+          }
+        }
+      },
+      alt,
+      caption
+    },
+
     category->{
       title,
+      "slug": slug.current
+    }
+  }
+`;
+
+
+export const searchArticlesQuery = `
+  *[
+    _type == "article" &&
+    defined(slug.current) &&
+    defined(publishedAt) &&
+    publishedAt <= now() &&
+    !(_id in path("drafts.**")) &&
+    (
+      title match $searchTerm ||
+      excerpt match $searchTerm ||
+      category->title match $searchTerm ||
+      province->name match $searchTerm ||
+      city->name match $searchTerm
+    )
+  ]
+  | order(publishedAt desc) {
+    _id,
+    title,
+    "slug": slug.current,
+    excerpt,
+    publishedAt,
+
+    mainImage {
+      image {
+        asset-> {
+          _id,
+          url,
+          metadata {
+            dimensions
+          }
+        }
+      },
+      alt,
+      caption
+    },
+
+    category->{
+      title,
+      "slug": slug.current
+    },
+
+    province->{
+      name,
+      "slug": slug.current
+    },
+
+    city->{
+      name,
       "slug": slug.current
     }
   }
