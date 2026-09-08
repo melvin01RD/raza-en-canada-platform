@@ -1,0 +1,282 @@
+export const featuredProvincesQuery = `
+  *[
+    _type == "province" &&
+    code in ["AB", "BC", "ON", "QC"]
+  ] {
+    _id,
+    name,
+    "slug": slug.current,
+    code,
+    description,
+    heroImage
+  }
+`;
+
+export const provinceBySlugQuery = `
+  *[
+    _type == "province" &&
+    slug.current == $slug
+  ][0] {
+    _id,
+    name,
+    "slug": slug.current,
+    code,
+    description,
+    heroImage,
+    seo,
+
+    "cities": *[
+      _type == "city" &&
+      province._ref == ^._id
+    ] | order(name asc) {
+      _id,
+      name,
+      "slug": slug.current,
+      description
+    }
+  }
+`;
+
+export const latestArticlesQuery = `
+  *[
+    _type == "article" &&
+    defined(slug.current) &&
+    defined(publishedAt) &&
+    publishedAt <= now() &&
+    !(_id in path("drafts.**"))
+  ]
+  | order(publishedAt desc)[0...3] {
+    _id,
+    title,
+    "slug": slug.current,
+    excerpt,
+    publishedAt,
+
+    mainImage {
+      image {
+        asset-> {
+          _id,
+          url,
+          metadata {
+            dimensions
+          }
+        }
+      },
+      alt,
+      caption
+    },
+
+    category->{
+      title,
+      "slug": slug.current
+    }
+  }
+
+`;
+
+export const allArticlesQuery = `
+  *[
+    _type == "article" &&
+    defined(slug.current) &&
+    defined(publishedAt) &&
+    publishedAt <= now() &&
+    !(_id in path("drafts.**"))
+  ]
+  | order(publishedAt desc) {
+    _id,
+    title,
+    "slug": slug.current,
+    excerpt,
+    publishedAt,
+
+    mainImage {
+      image {
+        asset-> {
+          _id,
+          url,
+          metadata {
+            dimensions
+          }
+        }
+      },
+      alt,
+      caption
+    },
+
+    category->{
+      title,
+      "slug": slug.current
+    }
+  }
+`;
+
+export const articlesByCategoryQuery = `
+  *[
+    _type == "article" &&
+    defined(slug.current) &&
+    defined(publishedAt) &&
+    publishedAt <= now() &&
+    !(_id in path("drafts.**")) &&
+    category->slug.current == $categorySlug
+  ]
+  | order(publishedAt desc) {
+    _id,
+    title,
+    "slug": slug.current,
+    excerpt,
+    publishedAt,
+
+    mainImage {
+      image {
+        asset-> {
+          _id,
+          url,
+          metadata {
+            dimensions
+          }
+        }
+      },
+      alt,
+      caption
+    },
+
+    category->{
+      title,
+      "slug": slug.current
+    },
+
+    province->{
+      name,
+      "slug": slug.current
+    },
+
+    city->{
+      name,
+      "slug": slug.current
+    }
+  }
+`;
+
+
+export const searchArticlesQuery = `
+  *[
+    _type == "article" &&
+    defined(slug.current) &&
+    defined(publishedAt) &&
+    publishedAt <= now() &&
+    !(_id in path("drafts.**")) &&
+    (
+      title match $searchTerm ||
+      excerpt match $searchTerm ||
+      category->title match $searchTerm ||
+      province->name match $searchTerm ||
+      city->name match $searchTerm
+    )
+  ]
+  | order(publishedAt desc) {
+    _id,
+    title,
+    "slug": slug.current,
+    excerpt,
+    publishedAt,
+
+    mainImage {
+      image {
+        asset-> {
+          _id,
+          url,
+          metadata {
+            dimensions
+          }
+        }
+      },
+      alt,
+      caption
+    },
+
+    category->{
+      title,
+      "slug": slug.current
+    },
+
+    province->{
+      name,
+      "slug": slug.current
+    },
+
+    city->{
+      name,
+      "slug": slug.current
+    }
+  }
+`;
+
+export const articleBySlugQuery = `
+  *[
+    _type == "article" &&
+    slug.current == $slug &&
+    defined(publishedAt) &&
+    publishedAt <= now() &&
+    !(_id in path("drafts.**"))
+  ][0] {
+    _id,
+    title,
+    "slug": slug.current,
+    excerpt,
+    publishedAt,
+    body,
+    sources,
+    seo,
+
+    author->{
+      name
+    },
+
+    category->{
+      title,
+      "slug": slug.current
+    },
+
+    province->{
+      name,
+      "slug": slug.current
+    },
+
+    city->{
+      name,
+      "slug": slug.current
+    },
+
+    mainImage {
+      image {
+        asset->{
+          _id,
+          url
+        }
+      },
+      alt,
+      caption
+    }
+  }
+`;
+
+export const cityBySlugQuery = `
+  *[
+    _type == "city" &&
+    slug.current == $slug
+  ][0] {
+    _id,
+    name,
+    "slug": slug.current,
+    description,
+    heroImage,
+    seo,
+
+    province->{
+      _id,
+      name,
+      "slug": slug.current,
+      code
+    }
+  }
+`;
