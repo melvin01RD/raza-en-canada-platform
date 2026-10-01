@@ -14,11 +14,6 @@ jobs:
     name: Quality Checks
     runs-on: ubuntu-latest
 
-    env:
-      NEXT_PUBLIC_SANITY_PROJECT_ID: ${{ vars.NEXT_PUBLIC_SANITY_PROJECT_ID }}
-      NEXT_PUBLIC_SANITY_DATASET: ${{ vars.NEXT_PUBLIC_SANITY_DATASET }}
-      NEXT_PUBLIC_SANITY_API_VERSION: ${{ vars.NEXT_PUBLIC_SANITY_API_VERSION }}
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -37,6 +32,9 @@ jobs:
 
       - name: Run TypeScript check
         run: npx tsc --noEmit
+
+      - name: Run Vitest
+        run: npm run test -- --run
 
       - name: Build Next.js
         run: npm run build
