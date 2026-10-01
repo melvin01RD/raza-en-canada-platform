@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { siteConfig } from "@/config/site";
 
 const footerLinks = {
   explorar: [
@@ -25,13 +26,11 @@ export function SiteFooter() {
               href="/"
               className="inline-flex items-center text-xl font-bold"
             >
-              <span className="text-[#D80621]">Raza</span>
-              <span className="ml-1 text-white">en Canadá</span>
+              {siteConfig.name}
             </Link>
 
             <p className="mt-4 max-w-md text-sm leading-6 text-slate-300">
-              Información práctica sobre inmigración, trabajo, educación,
-              provincias, ciudades y vida en Canadá.
+              {siteConfig.tagline}
             </p>
           </div>
 
@@ -78,8 +77,7 @@ export function SiteFooter() {
 
         <div className="mt-10 border-t border-white/10 pt-6">
           <p className="text-sm text-slate-400">
-            © {new Date().getFullYear()} Raza en Canadá. Todos los derechos
-            reservados.
+            © {new Date().getFullYear()} {siteConfig.name}
           </p>
         </div>
       </div>

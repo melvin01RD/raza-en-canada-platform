@@ -12,8 +12,10 @@ import {structureTool} from 'sanity/structure'
 import {apiVersion, dataset, projectId} from './sanity/env'
 import {schema} from './sanity/schemaTypes'
 import {structure} from './sanity/structure'
+import {siteConfig} from './config/site'
 
 export default defineConfig({
+  title: siteConfig.fullName,
   basePath: '/studio',
   projectId,
   dataset,

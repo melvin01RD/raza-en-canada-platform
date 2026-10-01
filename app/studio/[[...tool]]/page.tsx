@@ -8,11 +8,18 @@
  */
 
 import { NextStudio } from 'next-sanity/studio'
+import { metadata as studioMetadata } from 'next-sanity/studio'
+import { siteConfig } from '@/config/site'
 import config from '../../../sanity.config'
 
 export const dynamic = 'force-static'
 
-export { metadata, viewport } from 'next-sanity/studio'
+export { viewport } from 'next-sanity/studio'
+
+export const metadata = {
+  ...studioMetadata,
+  title: { absolute: `${siteConfig.fullName} | Studio` },
+}
 
 export default function StudioPage() {
   return <NextStudio config={config} />

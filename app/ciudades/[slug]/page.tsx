@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { siteConfig } from "@/config/site";
 import Link from "next/link";
 import { ArrowLeft, MapPin } from "lucide-react";
 import { notFound } from "next/navigation";
@@ -69,9 +70,10 @@ export async function generateMetadata({
     title,
     description,
     alternates: {
-      canonical: `/ciudades/${city.slug}`,
+      canonical: `/ciudades/${city.slug.toLowerCase()}`,
     },
     openGraph: {
+      siteName: siteConfig.name,
       title,
       description,
       type: "website",

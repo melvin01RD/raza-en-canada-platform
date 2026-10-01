@@ -75,6 +75,9 @@ export async function generateMetadata({
   return {
     title: article.seo?.title ?? article.title,
     description: article.seo?.description ?? article.excerpt,
+    alternates: {
+      canonical: `/articulos/${article.slug.toLowerCase()}`,
+    },
   };
 }
 

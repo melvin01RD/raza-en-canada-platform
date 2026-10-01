@@ -37,7 +37,7 @@ export const authorType = defineType({
       title: 'Role',
       type: 'string',
       description:
-        'Rol o posición del autor dentro de Raza en Canadá.',
+        'Rol o posición del autor dentro del equipo editorial.',
     }),
 
     defineField({
