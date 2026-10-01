@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { siteConfig } from "@/config/site";
 import { ArrowRight } from "lucide-react";
 
 import { ArticleCard } from "@/components/content/article-card";
@@ -55,7 +56,7 @@ export default async function Home() {
         <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-14 sm:px-6 sm:py-20 lg:grid-cols-2 lg:px-8 lg:py-24">
           <div>
             <span className="inline-flex rounded-full bg-[#D80621]/15 px-3 py-1 text-sm font-semibold text-[#FF6B78]">
-              Raza en Canadá
+              {siteConfig.name}
             </span>
 
             <h1 className="mt-6 max-w-2xl text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">

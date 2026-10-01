@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { siteConfig } from "@/config/site";
 import { Geist, Geist_Mono } from "next/font/google";
 
 import { SiteHeader } from "@/components/layout/site-header";
@@ -17,12 +18,31 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    siteConfig.url ||
+      (process.env.VERCEL_URL
+        ? `https://${process.env.VERCEL_URL}`
+        : `http://localhost:${process.env.PORT || 3000}`),
+  ),
+  applicationName: siteConfig.fullName,
   title: {
-    default: "Raza en Canadá",
-    template: "%s | Raza en Canadá",
+    default: siteConfig.title,
+    template: `%s | ${siteConfig.name}`,
   },
-  description:
-    "Información, noticias y recursos sobre inmigración, trabajo, educación y vida en Canadá.",
+  description: siteConfig.description,
+  openGraph: {
+    siteName: siteConfig.name,
+    title: siteConfig.title,
+    description: siteConfig.description,
+    locale: "es_CA",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: siteConfig.title,
+    description: siteConfig.description,
+  },
+  appleWebApp: { title: siteConfig.name },
 };
 
 export default function RootLayout({

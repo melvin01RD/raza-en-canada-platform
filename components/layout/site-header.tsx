@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Search, X } from "lucide-react";
 
 import { MobileMenu } from "@/components/layout/mobile-menu";
+import { siteConfig } from "@/config/site";
 
 const navigation = [
   { label: "Inicio", href: "/" },
@@ -45,19 +46,15 @@ export function SiteHeader() {
         <Link
           href="/"
           className="flex items-center gap-2"
-          aria-label="Raza en Canadá - Inicio"
+          aria-label={`${siteConfig.name} - Inicio`}
         >
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#D80621] text-xl font-bold text-white">
-            R
-          </div>
-
           <div className="leading-tight">
             <span className="block text-lg font-bold text-[#0B1F33]">
-              Raza en Canadá
+              {siteConfig.name}
             </span>
 
-            <span className="hidden text-xs text-slate-500 sm:block">
-              Tu guía para vivir en Canadá
+            <span className="hidden max-w-64 text-xs text-slate-500 sm:block">
+              {siteConfig.tagline}
             </span>
           </div>
         </Link>

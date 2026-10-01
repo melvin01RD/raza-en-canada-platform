@@ -1,8 +1,13 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import { ArrowRight } from "lucide-react";
 
 import { SiteHeader } from "@/components/layout/site-header";
 import { client } from "@/sanity/lib/client";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/provincias" },
+};
 
 type Province = {
   _id: string;
